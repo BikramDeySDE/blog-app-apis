@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService{
 	public UserDto createUser(UserDto userDto) {
 		User user = this.userDtoToUser(userDto);
 		User savedUser = this.userRepository.save(user);
-		UserDto saveUserDto = this.userToUserDto(savedUser);		
-		return saveUserDto;
+		UserDto savedUserDto = this.userToUserDto(savedUser);		
+		return savedUserDto;
 	}
 
 	
@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService{
 	// userDto to user
 	public User userDtoToUser(UserDto userDto) {
 		User user = new User();
+		user.setUserId(userDto.getUserId());
 		user.setUserName(userDto.getUserName());
 		user.setUserEmail(userDto.getUserEmail());
 		user.setUserPassword(userDto.getUserPassword());
@@ -83,12 +84,12 @@ public class UserServiceImpl implements UserService{
 	// user to userDto
 	public UserDto userToUserDto(User user) {
 		UserDto userDto = new UserDto();
+		userDto.setUserId(user.getUserId());
 		userDto.setUserName(user.getUserName());
 		userDto.setUserEmail(user.getUserEmail());
 		userDto.setUserPassword(user.getUserPassword());
 		userDto.setUserAbout(user.getUserAbout());
-		return userDto;
-		
+		return userDto;	
 	}
 	
 
