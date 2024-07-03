@@ -3,6 +3,7 @@ package com.bikram.blog.services.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	
 	// create user
@@ -70,7 +74,25 @@ public class UserServiceImpl implements UserService{
 		return userDtos;
 	}
 	
-	// userDto to user
+	
+	
+	
+		// userDto to user (using modelMapper)
+		public User userDtoToUser(UserDto userDto) {
+			User user = this.modelMapper.map(userDto, User.class);
+			return user;
+		}
+		
+		// user to userDto (using modelMapper)
+		public UserDto userToUserDto(User user) {
+			UserDto userDto = this.modelMapper.map(user, UserDto.class);
+			return userDto;	
+		}
+	
+	
+	/*
+	
+	// userDto to user (manually)
 	public User userDtoToUser(UserDto userDto) {
 		User user = new User();
 		user.setUserId(userDto.getUserId());
@@ -81,7 +103,7 @@ public class UserServiceImpl implements UserService{
 		return user;
 	}
 	
-	// user to userDto
+	// user to userDto (manually)
 	public UserDto userToUserDto(User user) {
 		UserDto userDto = new UserDto();
 		userDto.setUserId(user.getUserId());
@@ -92,5 +114,6 @@ public class UserServiceImpl implements UserService{
 		return userDto;	
 	}
 	
+	*/
 
 }
