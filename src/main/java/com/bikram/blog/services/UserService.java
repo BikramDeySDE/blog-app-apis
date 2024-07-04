@@ -10,13 +10,13 @@ public interface UserService {
 	UserDto createUser(UserDto userDto);
 	
 	// update user
-	UserDto updateUser(UserDto userDto, int userId);
+	UserDto updateUser(UserDto userDto, Integer userId);
 	
 	// delete user
-	String deleteUser(int userId);
+	String deleteUser(Integer userId);
 	
 	// get user by userId
-	UserDto getUserById(int userId);
+	UserDto getUserById(Integer userId);
 	
 	// get all users
 	List<UserDto> getAllUsers();
