@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService{
 	
 	// update user
 	@Override
-	public UserDto updateUser(UserDto userDto, int userId) {
+	public UserDto updateUser(UserDto userDto, Integer userId) {
 		User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User","User-Id",userId));
 		user.setUserName(userDto.getUserName());
 		user.setUserEmail(userDto.getUserEmail());
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService{
 	
 	// delete user
 	@Override
-	public String deleteUser(int userId) {
+	public String deleteUser(Integer userId) {
 		User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "User-Id", userId));
 		this.userRepository.delete(user);
 		String message = "User deleted with user-Id : " + userId;
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService{
 	
 	// get user by userId
 	@Override
-	public UserDto getUserById(int userId) {
+	public UserDto getUserById(Integer userId) {
 		User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "User-Id", userId));
 		UserDto userDto = this.userToUserDto(user);
 		return userDto;
