@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.sql.Update;
 
 import com.bikram.blog.payloads.PostDto;
+import com.bikram.blog.payloads.PostResponse;
 
 public interface PostService {
 
@@ -28,7 +29,7 @@ public interface PostService {
 	List<PostDto> getAllPostsByCategory(Integer categoryId);
 	
 	// get all posts
-	List<PostDto> getAllPosts();
+	PostResponse getAllPosts(Integer pageNumber, Integer pageSize, String sortBy, String sortDirection);
 	
 	// search posts from a particular keyword
 	List<PostDto> searchPosts(String keyword);
