@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bikram.blog.payloads.ApiResponse;
 import com.bikram.blog.payloads.PostDto;
+import com.bikram.blog.payloads.PostResponse;
 import com.bikram.blog.services.PostService;
 
 import jakarta.validation.Valid;
@@ -84,8 +86,8 @@ public class PostController {
 	
 	// get all posts
 	@GetMapping("/posts/get-all-posts")
-	public ResponseEntity<List<PostDto>> getAllPosts() {
-		List<PostDto> postDtos = this.postService.getAllPosts();
-		return new ResponseEntity<List<PostDto>>(postDtos,HttpStatus.OK);
+	public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber, @RequestParam(value = "pageSize", defaultValue =  "5", required = false) Integer pageSize, @RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy, @RequestParam(value = "sortDirection", defaultValue = "ascending", required = false) String sortDirection) {
+		PostResponse postResponse = this.postService.getAllPosts(pageNumber, pageSize, sortBy, sortDirection);
+		return new ResponseEntity<PostResponse>(postResponse,HttpStatus.OK);
 	}
 }
