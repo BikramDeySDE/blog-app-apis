@@ -24,7 +24,7 @@ public class PostDto {
 	private String postDescription;
 	private String postImageName;
 	private Date postAddedDate;
-	private UserDto userDto;
-	private CategoryDto categoryDto;
+	private UserDto user;	// the variable needs to be named as 'user' so that whenever modelMapper will face problem while setting the value after converting UserDto to User or vice-versa, it should recognize (otherwise 'user' data will be null in case of get-all-posts), otherwise we need to create custom method for the conversion : all the parameter names for an Entity and EntityDto should be same, otherwise data will show as null
+	private CategoryDto category; // the variable needs to be named as 'category' so that whenever modelMapper will face problem while setting value after CategotyDto to Category or vice-versa, it should recognize (otherwise 'category' data will be null in case of get-all-posts), otherwise we need to create custom method for the conversion : all the parameter names for an Entity and EntityDto should be same, otherwise data will show as null
 	
 }

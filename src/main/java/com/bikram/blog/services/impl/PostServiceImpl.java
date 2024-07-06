@@ -57,9 +57,6 @@ public class PostServiceImpl implements PostService {
 		Post savedPost = this.postRepository.save(post);
 		
 		PostDto savedPostDto = this.postToPostDto(savedPost); // here user and category are also converted to userDto and categoryDto respectively
-		// added these two lines to get userDto and categoryDto as output #NeedToCheck
-		savedPostDto.setUserDto(this.modelMapper.map(savedPost.getUser(), UserDto.class));
-		savedPostDto.setCategoryDto(this.modelMapper.map(savedPost.getCategory(),CategoryDto.class));
 		
 		return savedPostDto;
 	}
