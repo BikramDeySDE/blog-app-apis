@@ -90,4 +90,12 @@ public class PostController {
 		PostResponse postResponse = this.postService.getAllPosts(pageNumber, pageSize, sortBy, sortDirection);
 		return new ResponseEntity<PostResponse>(postResponse,HttpStatus.OK);
 	}
+	
+	
+	// search posts by post-title containing a particular keyword
+	@GetMapping("/posts/search-posts/post-title/{keyword}")
+	ResponseEntity<List<PostDto>> searchPosts(@PathVariable String keyword){
+		List<PostDto> postDtos = this.postService.searchPosts(keyword);
+		return new ResponseEntity<List<PostDto>>(postDtos,HttpStatus.OK);
+	}
 }

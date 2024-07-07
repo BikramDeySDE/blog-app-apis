@@ -4,7 +4,6 @@ package com.bikram.blog.services.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -171,9 +170,13 @@ public class PostServiceImpl implements PostService {
 		return postResponse;
 	}
 
+	
+	// search posts by title containing a particular keyword
 	@Override
 	public List<PostDto> searchPosts(String keyword) {
-		return null;
+		List<Post> posts = this.postRepository.findByPostTitleContaining(keyword);
+		List<PostDto> postDtos = posts.stream().map((post)->this.postToPostDto(post)).collect(Collectors.toList());
+		return postDtos;
 	}
 
 	
