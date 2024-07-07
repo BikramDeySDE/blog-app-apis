@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bikram.blog.config.AppConstants;
 import com.bikram.blog.payloads.ApiResponse;
 import com.bikram.blog.payloads.PostDto;
 import com.bikram.blog.payloads.PostResponse;
@@ -86,7 +87,7 @@ public class PostController {
 	
 	// get all posts
 	@GetMapping("/posts/get-all-posts")
-	public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber, @RequestParam(value = "pageSize", defaultValue =  "5", required = false) Integer pageSize, @RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy, @RequestParam(value = "sortDirection", defaultValue = "ascending", required = false) String sortDirection) {
+	public ResponseEntity<PostResponse> getAllPosts(@RequestParam(value = "pageNumber", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) Integer pageNumber, @RequestParam(value = "pageSize", defaultValue =  AppConstants.DEFAULT_PAGE_SIZE, required = false) Integer pageSize, @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy, @RequestParam(value = "sortDirection", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDirection) {
 		PostResponse postResponse = this.postService.getAllPosts(pageNumber, pageSize, sortBy, sortDirection);
 		return new ResponseEntity<PostResponse>(postResponse,HttpStatus.OK);
 	}
