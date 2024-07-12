@@ -44,7 +44,7 @@ public class FileServiceImpl implements FileService {
 		// storing the file into the 'completeFilePath' : the new file name comes from the 'completeFilePath'
 		Files.copy(imageFile.getInputStream(), Paths.get(completeFilePath));
 		
-		// retun new imageFileName
+		// return new imageFileName
 		return newImageFileName;
 	}
 
