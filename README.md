@@ -11,3 +11,4 @@ Using generated security password: 81da61b3-c24d-437d-ab23-e288c185aa18
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 ```
+
