@@ -52,7 +52,7 @@ public class SercurityConfig {
 		return provider;
 	}
 	
-	// declaring passwordEncoder
+	// declaring passwordEncoder for encoding password as we'll store the encoded password in the DB
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
