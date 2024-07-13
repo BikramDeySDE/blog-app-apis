@@ -1,9 +1,15 @@
 package com.bikram.blog.entities;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -26,7 +32,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class User implements UserDetails{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +55,27 @@ public class User {
 				joinColumns = @JoinColumn(name="user", referencedColumnName = "userId"), // relationship will be mapped by the column 'userId' of the 'users' table // name of the column in 'user_role' table, where userIds will be stored, will be 'user'
 				inverseJoinColumns = @JoinColumn(name="role", referencedColumnName = "roleId")) // relationship will be mapped by the column 'roleId' of the 'roles' table // name of the column in 'user_role' table, where roleIds will be stored, will be 'role'
 	private Set<Role> roles = new HashSet<>();
+
+	// grantedAuthorities : we are considering 'roles' as 'grantedAutorities'
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// converting each 'role' to 'authority'
+		List<SimpleGrantedAuthority> authorities = this.roles.stream().map((role)-> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
+		return authorities;
+	}
+
+	// password
+	@Override
+	public String getPassword() {
+		return this.userPassword;
+	}
+
+	// username (userEmail)
+	// we will return 'userEmail' as username because for authentication, we will be using 'userEmail' as username
+	@Override
+	public String getUsername() {
+		return this.userEmail;
+	}
 	
 }
 
