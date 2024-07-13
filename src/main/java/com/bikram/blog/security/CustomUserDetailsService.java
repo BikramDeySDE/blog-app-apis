@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.bikram.blog.entities.User;
 import com.bikram.blog.repositories.UserRepository;
-
+@Service
 public class CustomUserDetailsService implements UserDetailsService{
 
 	@Autowired
@@ -17,6 +18,11 @@ public class CustomUserDetailsService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = this.userRepository.findByUserEmail(username);
+		
+		if(user==null) {
+			throw new UsernameNotFoundException("username not found !!"); // reference of this if block code : video link - https://www.youtube.com/watch?v=yiE2hq6x_fk | time-stamp : 14:48 
+		}
+		
 		return user;
 	}
 
