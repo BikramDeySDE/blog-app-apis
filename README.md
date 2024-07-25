@@ -46,4 +46,33 @@ STEP-4) create class jJwtAuthenticationFilter extends OncePerRequestFilter, mark
 STEP-5) create JwtAuthResponse (Here we will keep the token only as a field and annotate the class with @Data)
 
 STEP-6) Configure JWT in spring security Config (in SecurityConfig class)
+STEP-7) create a login API to return token
 
+```
+	i. create class JwtAuthRequest (annotate the class with @Data)
+	ii. create class JwtAuthResponse (annotate the class with @Data)
+	iii. create Log In API for creating token (create a method 'createToken()' in AuthController)
+```
+
+STEP-8) make the login url public (available for all) (in SecurityConfig class)
+
+```
+		http
+		.authorizeHttpRequests()
+		.requestMatchers("/auth/login").permitAll()
+```
+
+STEP-9) test the application
+
+```
+	i. log in :
+		a. go to the GET request : "/auth/login" with the request body
+		{
+			"username" : "<userEmail>",
+			"password" : "<userPassword>"
+		}
+	
+	ii. in case of correct username and password, you will get a token generated for the particular user
+	
+	iii.now go to any other API, in the 'Header' section, provide the token as : 'Bearer <token>' and hit the request, and you'll be able to access the API
+```
