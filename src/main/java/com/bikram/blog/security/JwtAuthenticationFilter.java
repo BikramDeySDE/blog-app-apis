@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 		// Sample token : Bearer 123546354874ggdsh
 		
 		// additional steps : here we are printing the token
-		System.out.println(requestToken);
+		System.out.println("Token received in 'Authorization' header : " + requestToken);
 		
 		// step 3 : retrieve username from JWT token
 		String token = null;
@@ -63,7 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 			}
 			
 		} else {
-			System.err.println("JWT token does not start with : Bearer !!"); // if JWT token does not start with Bearer, then print this message 
+			System.out.println("JWT token does not start with : Bearer !!"); // if JWT token does not start with Bearer, then print this message 
 		}
 		
 		
