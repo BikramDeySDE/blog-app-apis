@@ -43,4 +43,16 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<Map<String,String>>(response,HttpStatus.BAD_REQUEST); 
 	}
 	
+	
+	
+	// for handling UserWithUsernameNotFoundException
+	@ExceptionHandler(UserWithUsernameNotFoundException.class)
+	public ResponseEntity<ApiResponse> userWithUsernameNotFoundExceptionUser(UserWithUsernameNotFoundException ex) {
+		String message = ex.getMessage();
+		ApiResponse response = new ApiResponse();
+		response.setMessage(message);
+		response.setSuccess(false);
+		return new ResponseEntity<ApiResponse>(response,HttpStatus.NOT_FOUND);
+	}
+	
 }
