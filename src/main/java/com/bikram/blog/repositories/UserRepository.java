@@ -9,5 +9,5 @@ import com.bikram.blog.entities.User;
 public interface UserRepository extends JpaRepository<User, Integer>{
 
 	// find user by userEmail : (this will be used in CustomUserDetailsService to fetch 'User' (UserDetails) by username ('userEmail')
-	User findByUserEmail(String userEmail);
+	Optional<User> findByUserEmail(String userEmail);
 }
