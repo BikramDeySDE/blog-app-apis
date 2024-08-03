@@ -12,8 +12,7 @@ import lombok.Data;
 @Data
 public class Role {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id // role-Id will not be auto-generated, it will be defined manually in code in the class "BlogApplication.java" (i.e. main class)
 	private Integer roleId;
 	private String roleName;
 	

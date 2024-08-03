@@ -1,5 +1,8 @@
 # blog-app-apis
  Blog Application (Backend) using Spring Boot
+ 
+# Important Points
+1. In Entities and its respective DTOs, the variable names (i.e. field names) should be same (example : if in Post entity, there is a field named as "User", in the PostDto as well, the field name should be "User" only, not "UserDto")
 
 # Form based authentication
 1. add dependency '' in pom.xml

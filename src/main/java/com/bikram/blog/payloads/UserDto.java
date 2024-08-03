@@ -1,5 +1,10 @@
 package com.bikram.blog.payloads;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.bikram.blog.entities.Role;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -28,4 +33,6 @@ public class UserDto {
 	
 	@NotEmpty(message = "userAbout is required !!")
 	private String userAbout;
+	
+	private Set<Role> roles = new HashSet<>();	// added roles in UserDto to show roles in response of UserDto
 }
