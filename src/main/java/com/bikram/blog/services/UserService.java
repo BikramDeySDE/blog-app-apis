@@ -20,4 +20,7 @@ public interface UserService {
 	
 	// get all users
 	List<UserDto> getAllUsers();
+	
+	// register new user
+	UserDto registerNewUser(UserDto userDto);
 }

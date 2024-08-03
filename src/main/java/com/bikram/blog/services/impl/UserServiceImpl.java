@@ -5,11 +5,16 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bikram.blog.config.AppConstants;
+import com.bikram.blog.entities.Role;
 import com.bikram.blog.entities.User;
 import com.bikram.blog.exceptions.ResourceNotFoundException;
+import com.bikram.blog.payloads.RoleDto;
 import com.bikram.blog.payloads.UserDto;
+import com.bikram.blog.repositories.RoleRepository;
 import com.bikram.blog.repositories.UserRepository;
 import com.bikram.blog.services.UserService;
 
@@ -21,6 +26,12 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	
 	// create user
@@ -75,7 +86,23 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	
-	
+	// register new user
+	@Override
+	public UserDto registerNewUser(UserDto userDto) {
+		// convert userDto to user
+		User user = this.modelMapper.map(userDto, User.class);
+		// set encoded password
+		user.setUserPassword(this.passwordEncoder.encode(user.getPassword())); // getting password from user > encode the password > set the encoded password into the user
+		// set roles for ROLE_NORMAL
+		Role role = this.roleRepository.findById(AppConstants.NORMAL_USER_ROLE_ID).get(); // fetch role from DB
+		user.getRoles().add(role);	// add role
+		// create (register) new user
+		User registeredUser = this.userRepository.save(user);
+		// convert user to userDto
+		UserDto registeredUserDto = this.modelMapper.map(registeredUser, UserDto.class);
+		// return new created (registered) user 
+		return registeredUserDto;
+	}
 	
 		// userDto to user (using modelMapper)
 		public User userDtoToUser(UserDto userDto) {
@@ -88,6 +115,7 @@ public class UserServiceImpl implements UserService{
 			UserDto userDto = this.modelMapper.map(user, UserDto.class);
 			return userDto;	
 		}
+
 	
 	
 	/*
