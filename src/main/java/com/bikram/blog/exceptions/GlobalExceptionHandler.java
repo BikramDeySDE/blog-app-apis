@@ -45,14 +45,25 @@ public class GlobalExceptionHandler {
 	
 	
 	
-	// for handling UserWithUsernameNotFoundException
+	// for handling UserWithUsernameNotFoundException (custom exception)
 	@ExceptionHandler(UserWithUsernameNotFoundException.class)
-	public ResponseEntity<ApiResponse> userWithUsernameNotFoundExceptionUser(UserWithUsernameNotFoundException ex) {
+	public ResponseEntity<ApiResponse> userWithUsernameNotFoundExceptionHandler(UserWithUsernameNotFoundException ex) {
 		String message = ex.getMessage();
 		ApiResponse response = new ApiResponse();
 		response.setMessage(message);
 		response.setSuccess(false);
 		return new ResponseEntity<ApiResponse>(response,HttpStatus.NOT_FOUND);
 	}
+	
+	
+	// for handling UserWithUsernameNotFoundException (custom exception)
+		@ExceptionHandler(ApiException.class)
+		public ResponseEntity<ApiResponse> ApiExceptionHandler(ApiException ex) {
+			String message = ex.getMessage();
+			ApiResponse response = new ApiResponse();
+			response.setMessage(message);
+			response.setSuccess(false);
+			return new ResponseEntity<ApiResponse>(response,HttpStatus.BAD_REQUEST);
+		}
 	
 }
