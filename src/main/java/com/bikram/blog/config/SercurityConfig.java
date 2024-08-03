@@ -43,7 +43,7 @@ public class SercurityConfig {
 		http
 		.csrf().disable()
 		.authorizeHttpRequests()
-		.requestMatchers("/auth/login").permitAll() // making 'login' url public
+		.requestMatchers("/auth/**").permitAll() // making 'login' and 'Register' URL publicly accessible
 		.requestMatchers(HttpMethod.GET).permitAll() // making all HTTP GET methods publicly accessible
 		.requestMatchers("/categories/**").hasRole("ADMIN") // only ADMIN can access the category APIs (POST, PUT & DELETE) but GET APIs will be accessible publicly as configuration is already done for all GET end-points such that all the GET end-points are accessible publicly (because In Spring Security, the order of rules matters, and rules are applied in the sequence they are defined) 
 		.anyRequest()
