@@ -76,3 +76,21 @@ STEP-9) test the application
 	
 	iii.now go to any other API, in the 'Header' section, provide the token as : 'Bearer <token>' and hit the request, and you'll be able to access the API
 ```
+`
+<br>
+<br>
+#Role Specific APIs
+STEP-1) Check the DB -> 
+		i. user table -> check if for all the users, passwords are encoded, and know the decoded passwords
+		ii. role table -> check if roles 'ROLE_ADMIN' and 'ROLE_NORMAL' are already created, if not created, then create the roles
+		iii. user_role table -> check if specific roles are assigned to specific users or not, if not then assign
+STEP-2) annotate the class 'SecurityConfig' with @EnableGlobalMethodSecurity(prePostEnabled=true) -> now we can apply security in each method
+STEP-3) go to the specific HTTP method controller for which you want to apply this, annotate the method @Preauthorize("hasRole('<ROLE>')")
+STEP-4) if you want to secure a bunch of APIs with specific URL pattern, then secure them in the SecurityConfig ->
+		code : antMatchers/requestMathers("<URL-pattern>").hasRole('<ROLE>')
+		example: requestMatchers("/users/delete").hasRole('ADMIN')
+STEP-5) if you want to un-secure (publicly accessible) any specific type of Requests, then un-secure them in the SecurityConfig ->
+		code : antMatchers/requestMatchers(HttpMethod.<HTTP-METHOD>).permitAll()
+		example : requestMatchers(HttpMethod.GET).permitAll()
+		
+

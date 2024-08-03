@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,6 +25,7 @@ import com.bikram.blog.security.JwtAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true) //now we can apply security in each method
 public class SercurityConfig {
 
 	@Autowired
@@ -41,6 +44,8 @@ public class SercurityConfig {
 		.csrf().disable()
 		.authorizeHttpRequests()
 		.requestMatchers("/auth/login").permitAll() // making 'login' url public
+		.requestMatchers(HttpMethod.GET).permitAll() // making all HTTP GET methods publicly accessible
+		.requestMatchers("/categories/**").hasRole("ADMIN") // only ADMIN can access the category APIs (POST, PUT & DELETE) but GET APIs will be accessible publicly as configuration is already done for all GET end-points such that all the GET end-points are accessible publicly (because In Spring Security, the order of rules matters, and rules are applied in the sequence they are defined) 
 		.anyRequest()
 		.authenticated()
 		.and()
