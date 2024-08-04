@@ -148,7 +148,8 @@ STEP-6) now you can run the application and if you hit the URLs mentioned below 
 # Migration from SpringFox to SpringDoc : 
 
 ```
-Reference : https://springdoc.org/migrating-from-springfox.html
+Reference Documentation : https://springdoc.org/migrating-from-springfox.html
+Reference Video Link : https://www.youtube.com/watch?v=UvIWQSKz8kE
 ```
 	
 # Swagger Configuration (New method : using springdoc)
@@ -185,7 +186,7 @@ springdoc.packages-to-scan=com.bikram.blog.controllers
 springdoc.paths-to-match=/auth/**, /users/**, /categories/**, /posts/**, /comments/**, /user/**, /category/**, /post/**, /files/**, /comments/** 
 ```
 	
-STEP-6) now you can run the application and if you hit the URLs mentioned below you can the respective results :
+STEP-7) now you can run the application and if you hit the URLs mentioned below you can the respective results :
 
 	i. Postman : http://localhost:8080/v3/api-docs : complete API details in the Back-end Form
 	ii. Browser : http://localhost:8080/swagger-ui/index.html : complete API documentation in UI Form 
