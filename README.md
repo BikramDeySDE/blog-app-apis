@@ -111,3 +111,83 @@ STEP-5) if you want to un-secure (publicly accessible) any specific type of Requ
 		example : requestMatchers(HttpMethod.GET).permitAll()
 		
 
+
+# Swagger Configuration (Old method : using springfox)
+STEP-1) add dependency : springfoc-boot-starter
+
+```
+<!-- https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter -->
+<dependency>
+    <groupId>io.springfox</groupId>
+    <artifactId>springfox-boot-starter</artifactId>
+    <version>3.0.0</version>
+</dependency>
+```
+
+STEP-2) annotate the security configuration class (SecurityConfig.java) with @EnableWebMVC
+
+STEP-3) make the URL ("/v3/api-docs") publicly accessible in security configuration class (SecurityConfig.java) [note : v3 -> as we are using swagger version 3.0.0) as mentioned in the dependency]
+
+STEP-4) make the below mentioned URLs publicly accessible :
+	
+	i. "/v2/api-docs"
+	ii. "/swagger-resources/**"
+	iii. "/swagger-ui/**"
+	iv. "/webjars/**"
+	
+	NOTE : You can put all these URls, which you need to make publicly accessible, in an array
+	
+STEP-5) Do the necessary Swagger Configurations in SwaggerConfid.java	
+	
+STEP-6) now you can run the application and if you hit the URLs mentioned below you can the respective results :
+
+	i. Postman : http://localhost:8080/v3/api-docs : complete API details in the Back-end Form
+	ii. Browser : http://localhost:8080/swagger-ui/index.html : complete API documentation in UI Form 
+	
+	
+# Migration from SpringFox to SpringDoc : 
+
+```
+Reference : https://springdoc.org/migrating-from-springfox.html
+```
+	
+# Swagger Configuration (New method : using springdoc)
+
+STEP-1) add dependency : springdoc-openapi-starter-webmvc-ui
+
+```
+<!-- https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter -->
+   <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>2.6.0</version>
+   </dependency>
+```
+
+STEP-2) annotate the security configuration class (SecurityConfig.java) with @EnableWebMVC
+
+STEP-3) make the URL ("/v3/api-docs") publicly accessible in security configuration class (SecurityConfig.java) [note : v3 -> as we are using swagger version 3.0.0) as mentioned in the dependency]
+
+STEP-4) make the below mentioned URLs publicly accessible :
+	
+	i. "/swagger-resources/**"
+	ii. "/swagger-ui/**"
+	iii. "/webjars/**"
+	
+	NOTE : You can put all these URls, which you need to make publicly accessible, in an array
+	
+STEP-5) Do the necessary Swagger Configurations in SwaggerConfig.java : create a method to return OpenAPI object
+
+STEP-6) add swagger configurations in application.properties file :
+
+```
+springdoc.packages-to-scan=com.bikram.blog.controllers
+springdoc.paths-to-match=/auth/**, /users/**, /categories/**, /posts/**, /comments/**, /user/**, /category/**, /post/**, /files/**, /comments/** 
+```
+	
+STEP-6) now you can run the application and if you hit the URLs mentioned below you can the respective results :
+
+	i. Postman : http://localhost:8080/v3/api-docs : complete API details in the Back-end Form
+	ii. Browser : http://localhost:8080/swagger-ui/index.html : complete API documentation in UI Form 
+
+	
