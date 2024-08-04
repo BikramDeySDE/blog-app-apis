@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.bikram.blog.security.CustomUserDetailsService;
 import com.bikram.blog.security.JwtAuthenticationEntrypoint;
@@ -25,9 +26,19 @@ import com.bikram.blog.security.JwtAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 @Configuration
 @EnableWebSecurity
+@EnableWebMvc // for swagger
 @EnableGlobalMethodSecurity(prePostEnabled = true) //now we can apply security in each method
 public class SercurityConfig {
 
+	// defining URLs which needs to be declared as publicly accessible
+	public static final String[] PUBLIC_URLS = {
+			"/auth/**", // making 'login' and 'Register' URL publicly accessible
+			"/v3/api-docs",
+			"/swagger-resources/**",
+			"/swagger-ui/**",
+			"/webjars/**"
+	};
+	
 	@Autowired
 	private CustomUserDetailsService customUserDetailsService;
 	
@@ -43,7 +54,7 @@ public class SercurityConfig {
 		http
 		.csrf().disable()
 		.authorizeHttpRequests()
-		.requestMatchers("/auth/**").permitAll() // making 'login' and 'Register' URL publicly accessible
+		.requestMatchers(PUBLIC_URLS).permitAll() // making all URLs declared in the array PUBLIC_URLS publicly accessible
 		.requestMatchers(HttpMethod.GET).permitAll() // making all HTTP GET methods publicly accessible
 		.requestMatchers("/categories/**").hasRole("ADMIN") // only ADMIN can access the category APIs (POST, PUT & DELETE) but GET APIs will be accessible publicly as configuration is already done for all GET end-points such that all the GET end-points are accessible publicly (because In Spring Security, the order of rules matters, and rules are applied in the sequence they are defined) 
 		.anyRequest()
