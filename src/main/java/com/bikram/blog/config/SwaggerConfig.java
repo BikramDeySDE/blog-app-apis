@@ -1,23 +1,49 @@
 package com.bikram.blog.config;
 
-import java.util.Collections;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.ExternalDocumentation;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.security.SecurityScheme.Type;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @Configuration
+@SecurityScheme(
+		name = "bearerScheme",
+		type = SecuritySchemeType.HTTP,
+		bearerFormat = "JWT",
+		scheme = "bearer"
+		)
+@OpenAPIDefinition(
+		info = @Info(
+				title = "Blogging Appilacation",
+				description = "This project is developed by SDE Bikram Dey",
+				version = "1.0",
+				contact = @Contact(
+						name = "Bikram Dey",
+						email = "bikramdeyofficial@gmail.com",
+						url = "https://www.linkedin.com/in/bikramdey/"
+						),
+				license = @License(
+						name = "OPEN License"
+						)
+				),
+		externalDocs = @ExternalDocumentation(
+				description = "Software Development Engineer : Bikram Dey",
+				url = "https://www.linkedin.com/in/bikramdey/"
+				))
 public class SwaggerConfig {
 
+	
+	
+	/*  ************************************************************************************************
+	 *  Commenting out this configuration using bean as we are doing the configuration using Annotations
+	 *  ************************************************************************************************
+	 *  
 	String schemeName = "bearerScheme";
 	
 	// method to return OpenAPI object
@@ -42,5 +68,6 @@ public class SwaggerConfig {
 						.description("This project is developed by Bikram Dey")
 						.url("https://www.linkedin.com/in/bikramdey/"));		
 	}
-		
+	
+		*/
 }

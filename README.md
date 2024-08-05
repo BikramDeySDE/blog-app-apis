@@ -193,6 +193,9 @@ STEP-7) now you can run the application and if you hit the URLs mentioned below 
 
 	
 # Implementation of Security in API Docs
+There are 2 Processes to implement Swagger Configuration with Security in API Docs
+
+Process-1) By declaration of Bean
 
 in Swagger configuration File, in the method openAPI(), while returning OpenAPI object, add 'addSecurityItem' and 'components' part to the object
 
@@ -213,4 +216,46 @@ new OpenAPI()
 
 ```
 NOTE : in Swagger-ui page, we don't need to put "Bearer" from out side while providing the token 
+```
+
+
+Process-2) Using Annotations
+
+STEP-I) Do necessary configuration using Annotation in Swagger Configuration class(SwaggerConfig.java)
+
+```
+@Configuration
+@SecurityScheme(
+		name = "bearerScheme",
+		type = SecuritySchemeType.HTTP,
+		bearerFormat = "JWT",
+		scheme = "bearer"
+		)
+@OpenAPIDefinition(
+		info = @Info(
+				title = "Blogging Appilacation",
+				description = "This project is developed by SDE Bikram Dey",
+				version = "1.0",
+				contact = @Contact(
+						name = "Bikram Dey",
+						email = "bikramdeyofficial@gmail.com",
+						url = "https://www.linkedin.com/in/bikramdey/"
+						),
+				license = @License(
+						name = "OPEN License"
+						)
+				),
+		externalDocs = @ExternalDocumentation(
+				description = "Software Development Engineer : Bikram Dey",
+				url = "https://www.linkedin.com/in/bikramdey/"
+				))
+public class SwaggerConfig {
+
+}
+```
+
+STEP-II) Annotate all the Controller Classes with the Annotation "@SecurityRequirement"
+
+```
+@SecurityRequirement(name = "bearerScheme")	// for implementation of security in swagger
 ```

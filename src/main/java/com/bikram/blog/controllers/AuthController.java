@@ -21,7 +21,10 @@ import com.bikram.blog.payloads.UserDto;
 import com.bikram.blog.security.JwtTokenHelper;
 import com.bikram.blog.services.UserService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
+@SecurityRequirement(name = "bearerScheme")	// for implementation of security in swagger
 @RequestMapping("/auth")
 public class AuthController {
 
