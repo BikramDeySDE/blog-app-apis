@@ -192,3 +192,25 @@ STEP-7) now you can run the application and if you hit the URLs mentioned below 
 	ii. Browser : http://localhost:8080/swagger-ui/index.html : complete API documentation in UI Form 
 
 	
+# Implementation of Security in API Docs
+
+in Swagger configuration File, in the method openAPI(), while returning OpenAPI object, add 'addSecurityItem' and 'components' part to the object
+
+```
+SwaggerConfig.java > openAPI() > add componenets() part :
+
+new OpenAPI()
+	.addSecurityItem(new SecurityRequirement().addList(schemeName))
+	.components(new Component()
+		.addSecuritySchemes(schemeName, new SecurityScheme()
+			.name("")
+			.type("")
+			.bearerFormat(SecurityScheme.Type.{TYPE})
+			.scheme("")))
+	.info(new Info().title("...")....)
+
+```
+
+```
+NOTE : in Swagger-ui page, we don't need to put "Bearer" from out side while providing the token 
+```
