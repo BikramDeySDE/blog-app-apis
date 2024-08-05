@@ -16,7 +16,10 @@ import com.bikram.blog.payloads.ApiResponse;
 import com.bikram.blog.payloads.CommentDto;
 import com.bikram.blog.services.CommentService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
+@SecurityRequirement(name = "bearerScheme")	// for implementation of security in swagger
 @RequestMapping("/")
 public class CommentController {
 

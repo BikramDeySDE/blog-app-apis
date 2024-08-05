@@ -28,10 +28,12 @@ import com.bikram.blog.payloads.PostResponse;
 import com.bikram.blog.services.FileService;
 import com.bikram.blog.services.PostService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
+@SecurityRequirement(name = "bearerScheme")	// for implementation of security in swagger
 @RequestMapping("/")
 public class PostController {
 
