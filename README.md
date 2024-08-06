@@ -177,7 +177,7 @@ STEP-4) make the below mentioned URLs publicly accessible :
 	
 	NOTE : You can put all these URls, which you need to make publicly accessible, in an array
 	
-STEP-5) Do the necessary Swagger Configurations in SwaggerConfig.java : create a method to return OpenAPI object
+STEP-5) Do the necessary Swagger Configurations in SwaggerConfig.java : create a method to return OpenAPI object (with info and externalDocs)
 
 STEP-6) add swagger configurations in application.properties file :
 
@@ -221,7 +221,7 @@ NOTE : in Swagger-ui page, we don't need to put "Bearer" from out side while pro
 
 Process-2) Using Annotations
 
-STEP-I) Do necessary configuration using Annotation in Swagger Configuration class(SwaggerConfig.java)
+STEP-I) Do necessary configuration using Annotation in Swagger Configuration class(SwaggerConfig.java) : we can remove complete 'openAPI()' method (including info, externalDocs, securityItem and components with SecurityScheme)(steps mentioned in STEP-5 and Process-I) from SwaagerConfig.java and instead we can use Annotations
 
 ```
 @Configuration
