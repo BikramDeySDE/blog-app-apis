@@ -259,3 +259,36 @@ STEP-II) Annotate all the Controller Classes with the Annotation "@SecurityRequi
 ```
 @SecurityRequirement(name = "bearerScheme")	// for implementation of security in swagger
 ```
+
+
+# Adding Support for MediaType XML with JSON 
+
+STEP-1) Add a dependency : jackson dataformat xml
+
+```
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+```
+```
+Note : 
+i. after adding this dependency, the default MediaType will be set as XML
+ii. if we want to get choose any MediaType in which we want to get the response while hitting the API, we need to do the configuration accordingly
+```
+STEP-2) Create a configuration class (ContentConfig.java), annotate the class with '@Configuration', implement the interface 'WebMvcConfigurer', and override a method 'configureContentNegotiation(ContentNegotiationConfigurer)'
+
+```
+@Configuration
+public class ContentConfig implements WebMvcConfigurer {
+	@Override
+	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {		
+		configurer.favorParameter(true)
+					.parameterName("mediaType")
+					.defaultContentType(MediaType.APPLICATION_JSON)
+					.mediaType("json", MediaType.APPLICATION_JSON)
+					.mediaType("xml", MediaType.APPLICATION_XML);
+	}
+}
+```
