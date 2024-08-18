@@ -292,3 +292,110 @@ public class ContentConfig implements WebMvcConfigurer {
 	}
 }
 ```
+
+# Deployment in AWS
+
+- Required Services :
+
+	i. Amazon EC2 : provide a virtual computer
+	ii. AWS Elastic Beanstalk : We need to simply upload our code and Elastic Beanstalk will automatically handle the deployment (from capacity load balancing, auto-scaling to health monitoring)
+	iii. Amazon RDS : provides Relational Database
+	iv. Amazon Route 53 : routes end-users to Internet application by translating domain-name into IP address
+	v. Amazon S3 : Object storage built to retrieve any amount of data from anywhere
+	
+- AWS Account Creation : 
+
+```
+Link : https://signin.aws.amazon.com/signup?request_type=register
+```
+
+- Steps for Deployment : 
+
+PART-A) Managing Different Environments
+
+	STEP-1) Configure Different Environments : configure application.peoperties file for different environments : 
+	i. application.properties : the common properties for all environments will be in this file. also add a property : spring.profiles.active=<env-name; ex.- dev/prod>
+	ii. application-dev.properties : the properties only for the development environment (other than the common properties) will be in this file
+	iii. application-prod.properties : the properties only for the production environment (other than the common properties) will be in this file
+	
+	note : before creating jar file, the active profile must be set to 'prod'
+		spring.profiles.active=prod
+		
+PART-B) Set up MySQL DB on AWS using RDS
+
+	STEP-2) Create RDS : go to AWS console > search "RDS" > create Database > enter details [choose Engine type, Edition, Version, Template, Identifier (name of DB), Credentials (username & password), public access] > click on "Create Database"
+	STEP-3) Once DB is created, you can see the DB status as "Available"
+	STEP-4) DB details can be checked after clicking on it under Connectivity & Security section :
+			Endpoint : host
+			Port : port number
+			- use these details : 
+				- to connect the workbench
+				- to configure application.peoperties file in the project and create the jar file
+	STEP-5) Make the Port Publicly Accessible : Go to DB Details > Connectivity & Security > under 'Security' section, click on The VPC security group default link > click on security group id > edit Inbound Rules > add a rule & select [Type : MySQL/Aurora | Source : Anywhere IPv4] & save rule
+		
+PART-C) Connect the DB in Workbench
+	
+	STEP-6) Connect the Workbench using these details : Go to workbench in the local PC > click on the '+' button > Provide connection Details (Connection name : give as per your choice | Connection method : Standard(TCP/IP) | Hostname : 'Endpoint' as you can see in AWS RDS DB Details | port : port number as you can see in AWS RDS DB Details | username & password : as you have given while creating the RDS DB) > test connection > OK > Database connection completed.
+	STEP-7) Create A Schema in the workbench under this connection : name : as we are using the link declared in application-prod.properties file > this Schema is now created in AWS.
+	
+PART-D) DB configuration in application-prod.properties
+	
+	STEP-8) Configure applicatio-prod.peoperties file :
+			- spring.datasource.url=jdbc:mysql://<Hostname>:<port>/<Schema-name>
+				Here :	Hostname - 'Endpoint' as you can see in AWS RDS DB Details in STEP-6
+						port - port number as you can see in AWS RDS DB Details in STEP-6
+						Schema name - as you've created under the AWS connection in STEP-7
+			- spring.datasource.username=<username - as you have given while creating the DB>
+			- spring.datasource.password=<password - as you have given while creating the DB>
+	STEP-9) Configure applicatio.peoperties file : (activate the prod profile)
+			- add property :
+				spring.profiles.active=prod
+	STEP-10) change the port no to 5000 - because Elastic Beanstalk in AWS expects out application to run at port no 5000 (in case you are deploying the application on AWS)
+				
+PART-E) Create jar file
+				 
+	STEP-11) create the jar file : click on the project > run as > Maven Build... > Goals : package > apply > run > it will run the build and after successful completion of build, jar file will be created under the 'target' folder
+		- rename the jar file
+		- run in console : launch the command prompt in the folder 'target' > run the command : java -jar <jar-file-name including .jar extension> and you can check on browser by hitting the swagger ui url 
+		- stop the application using console : in console, press 'Ctrl + C', hit 'Enter'
+	
+- Deploy the jar file in AWS
+	
+	STEP-12) go to aws console > search "Elastic Beanstalk" > click on the button 'create application' > fill in the blanks (application name, platform) & select on upload your code > choose the jar file by clicking on 'choose file' > after the file is uploaded successfully, click on 'configure more options' > go to the 'Database' section & click on 'edit' > wait for some seconds and it will fetch some details > fill the 'username' and 'password' for the database (same username and password for the DB which you have just created in AWS using RDS) > click on 'save' > now click on the button 'create app' > it will create an environment in backend and our app will be deployed
+	
+	- after successful completion of the build, we can see an url just under the <appname>-env (here blogapp-env), you can use this URL to access your application (URL will be like this : "<appname>-env.....elasticbeanstalk.com") (after successful completion of build, you can see a green Tick mark under the 'Health' and it should be showing as 'OK')
+	
+	- you can also access the swagger API : <appname>-env.....elasticbeanstalk.com/swagger-ui/index.html
+	
+	- Note : When our application is deployed on AWS, an EC instance will be created. You can also check this : seach "EC2" > click on 'EC2' > click on 'instances (running)' > you can see the running instances here (names would be like '<Appname>-env')
+	
+	- if we want to update anything in code, we can update it in code, rebuild and create the package (jar file) and upload the code by clicking on 'upload and deploy' button under 'running version' > choose file > click on 'Deploy. This will also maintain the versions of our application (like <appname>-source-1, <appname>-source-2,....).
+		
+- For this project
+	
+	STEP-1) Configure Different Environments : we are configuring 2 Environments here : dev and prod (application-dev.properties & application-prod.peoperties)
+	STEP-2) Create RDS : Here choose these options :
+						engine type : MySQL
+						Edition : MySQL Community
+						Version : MySQL 8.0.28
+						Templates : Free Tier
+						Identifier : blog-db
+						Public Access : yes
+	STEP-5) 	DB Link for 'blog-db' created on AWS : https://us-east-1.console.aws.amazon.com/rds/home?region=us-east-1#databases:
+	STEP-7) Schema name : blog-app-apis
+	STEP-8) 	spring.datasource.url=jdbc:mysql://<Hostname>:<port>/<Schema-name>
+			spring.datasource.username=bikram
+			spring.datasource.password=bikram
+			STEP			
+
+	STEP-9) 	rename the jar file as : blog-api-app.jar
+			command to run : java -jar blog-api-app.jar
+			swagger url : localhost:8080/swagger-ui/index.html
+			
+	STEP-12)	application name : blogapp
+			platform : java
+			
+	NOTE : Used AWS services : i. RDS | ii. Elastic Beanstalk | iii. EC2
+	NOTE : If you want to delete your deployed application, you need to delete : 
+			i. EC2 instances ii. databases created using RDS iii. Security Groups 
+	Special Note : always check all the zones i.e. anything is running in any zones
